@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>理学療法士キャリア診断</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-deep:#1F7A5C;
+    --green-main:#2E9E77;
+    --green-soft:#E6F4EE;
+    --green-line:#BFE3D4;
+    --ink:#1E2B27;
+    --ink-sub:#5C6E67;
+    --white:#FFFFFF;
+    --line-brand:#06C755;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    font-family:'Noto Sans JP',sans-serif;
+    background:#F2F7F5;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    color:var(--ink);
+  }
+  .phone{
+    width:100%;
+    max-width:420px;
+    min-height:100vh;
+    background:var(--white);
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+  .screen{display:none;flex-direction:column;flex:1;min-height:100vh;}
+  .screen.active{display:flex;}
+
+  /* ===== ヘッダー（トップ） ===== */
+  .header-band{
+    background:linear-gradient(160deg,var(--green-deep) 0%,var(--green-main) 100%);
+    padding:34px 28px 90px;
+    position:relative;
+    z-index:1;
+    clip-path:ellipse(140% 100% at 50% 0%);
+  }
+  .brand{
+    display:flex;align-items:center;gap:8px;
+    color:rgba(255,255,255,.9);
+    font-size:12px;font-weight:500;letter-spacing:.14em;
+    margin-bottom:26px;
+  }
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:#9FE3C6;}
+  .time-chip{
+    display:inline-flex;align-items:center;gap:6px;
+    background:rgba(255,255,255,.16);
+    border:1px solid rgba(255,255,255,.35);
+    color:#fff;font-size:13px;font-weight:700;
+    padding:7px 14px;border-radius:100px;
+    margin-bottom:18px;letter-spacing:.06em;
+  }
+  .time-chip svg{flex-shrink:0;}
+  h1{
+    font-family:'Zen Kaku Gothic New',sans-serif;
+    color:#fff;font-size:15px;font-weight:500;
+    letter-spacing:.1em;margin-bottom:10px;
+  }
+  .title-main{
+    font-family:'Zen Kaku Gothic New',sans-serif;
+    color:#fff;font-size:36px;font-weight:900;
+    line-height:1.35;letter-spacing:.02em;
+  }
+  .title-main .accent{color:#B9F0D8;}
+  .card-area{
+    position:relative;z-index:2;
+    padding:0 22px;margin-top:-58px;
+    flex:1;display:flex;flex-direction:column;
+  }
+  .lead-card{
+    background:var(--white);border-radius:20px;
+    box-shadow:0 10px 30px rgba(31,122,92,.14);
+    padding:24px 22px;text-align:center;
+  }
+  .lead-card .q{
+    font-family:'Zen Kaku Gothic New',sans-serif;
+    font-size:17px;font-weight:700;line-height:1.7;color:var(--ink);
+  }
+  .lead-card .q .u{
+    background:linear-gradient(transparent 68%,#C9F2E0 68%);
+    padding:0 2px;
+  }
+  .lead-card .sub{
+    margin-top:10px;font-size:13px;color:var(--ink-sub);line-height:1.8;
+  }
+  .types{display:flex;gap:12px;margin-top:20px;}
+  .type{
+    flex:1;background:var(--green-soft);
+    border:1px solid var(--green-line);
+    border-radius:16px;padding:16px 12px 14px;text-align:center;
+  }
+  .type .icon{
+    width:44px;height:44px;margin:0 auto 10px;border-radius:50%;
+    background:var(--white);display:flex;align-items:center;justify-content:center;
+    border:1.5px solid var(--green-line);
+  }
+  .type .t-label{
+    font-size:10.5px;font-weight:500;color:var(--green-deep);
+    letter-spacing:.1em;margin-bottom:4px;
+  }
+  .type .t-name{
+    font-family:'Zen Kaku Gothic New',sans-serif;
+    font-size:14.5px;font-weight:700;color:var(--ink);line-height:1.4;
+  }
+  .vs{
+    align-self:center;
+    font-family:'Zen Kaku Gothic New',sans-serif;
+    font-size:12px;font-weight:700;color:var(--ink-sub);
+  }
+  .features{display:flex;justify-content:center;gap:18px;margin:22px 0 4px;}
+  .feature{text-align:center;font-size:11.5px;color:var(--ink-sub);line-height:1.5;}
+  .feature b{
+    display:block;
+    font-family:'Zen Kaku Gothic New',sans-serif;
+    font-size:15px;font-weight:900;color:var(--green-deep);margin-bottom:2px;
+  }
+  .cta-area{margin-top:auto;padding:20px 0 30px;}
+  .cta{
+    display:block;width:100%;border:none;
+    background:linear-gradient(135deg,var(--green-main),var(--green-deep));
+    color:#fff;
+    font-family:'Zen Kaku Gothic New',sans-serif;
+    font-size:17px;font-weight:700;letter-spacing:.08em;
+    padding:18px;border-radius:100px;
+    box-shadow:0 8px 20px rgba(31,122,92,.32);
+    cursor:pointer;transition:transform .15s ease;
+    text-align:center;text-decoration:none;
+  }
+  .cta:active{transform:scale(.98);}
+  .cta .arrow{margin-left:6px;}
+  .cta-note{
+    text-align:center;font-size:11.5px;color:var(--ink-sub);
+    margin-top:10px;letter-spacing:.04em;
+  }
+
+  /* ===== 質問画面 ===== */
+  .quiz-head{
+    background:linear-gradient(160deg,var(--green-deep) 0%,var(--green-main) 100%);
+    padding:22px 24px 26px;
+  }
+  .quiz-head .brand{margin-bottom:14px;}
+  .progress-label{
+    display:flex;justify-content:space-between;align-items:baseline;
+    color:#fff;margin-bottom:8px;
+  }
+  .progress-label .num{
+    font-family:'Zen Kaku Gothic New',sans-serif;
+    font-size:20px;font-weight:900;
+  }
+  .progress-label .num small{font-size:13px;font-weight:500;opacity:.85;}
+  .progress-label .pct{font-size:12px;opacity:.9;}
+  .progress-bar{
+    height:8px;border-radius:100px;
+    background:rgba(255,255,255,.25);overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;border-radius:100px;
+    background:#B9F0D8;width:0%;
+    transition:width .35s ease;
+  }
+  .quiz-body{
+    flex:1;display:flex;flex-direction:column;
+    padding:26px 22px 30px;
+  }
+  .q-text{
+    font-family:'Zen Kaku Gothic New',sans-serif;
+    font-size:19px;font-weight:700;line-height:1.65;
+    margin-bottom:22px;min-height:3.3em;
+  }
+  .opts{display:flex;flex-direction:column;gap:12px;}
+  .opt{
+    width:100%;border:1.5px solid var(--green-line);
+    background:var(--white);color:var(--ink);
+    font-family:'Noto Sans JP',sans-serif;
+    font-size:15px;font-weight:500;
+    padding:16px 18px;border-radius:14px;
+    text-align:left;cursor:pointer;
+    transition:background .15s ease,border-color .15s ease,transform .1s ease;
+    display:flex;align-items:center;gap:12px;
+  }
+  .opt .mark{
+    width:22px;height:22px;flex-shrink:0;
+    border-radius:50%;border:2px solid var(--green-line);
+    display:flex;align-items:center;justify-content:center;
+    transition:all .15s ease;
+  }
+  .opt:active{transform:scale(.985);}
+  .opt.selected{
+    background:var(--green-soft);border-color:var(--green-main);
+  }
+  .opt.selected .mark{
+    background:var(--green-main);border-color:var(--green-main);
+  }
+  .opt.selected .mark::after{
+    content:"";width:8px;height:8px;border-radius:50%;background:#fff;
+  }
+  .back-link{
+    margin-top:auto;padding-top:22px;
+    background:none;border:none;
+    color:var(--ink-sub);font-size:13px;
+    cursor:pointer;letter-spacing:.04em;
+    font-family:'Noto Sans JP',sans-serif;
+  }
+
+  /* ===== 結果画面 ===== */
+  .result-head{
+    background:linear-gradient(160deg,var(--green-deep) 0%,var(--green-main) 100%);
+    padding:30px 28px 92px;text-align:center;
+    clip-path:ellipse(140% 100% at 50% 0%);
+  }
+  .result-head .lbl{
+    color:rgba(255,255,255,.9);font-size:12px;
+    letter-spacing:.2em;font-weight:500;margin-bottom:10px;
+  }
+  .result-head .r-catch{
+    color:#B9F0D8;
+    font-family:'Zen Kaku Gothic New',sans-serif;
+    font-size:14px;font-weight:700;margin-bottom:6px;
+  }
+  .result-head .r-type{
+    color:#fff;
+    font-family:'Zen Kaku Gothic New',sans-serif;
+    font-size:32px;font-weight:900;line-height:1.35;
+  }
+  .result-card{
+    background:var(--white);border-radius:20px;
+    box-shadow:0 10px 30px rgba(31,122,92,.14);
+    padding:26px 22px;
+  }
+  .result-card .r-icon{
+    width:64px;height:64px;margin:0 auto 14px;border-radius:50%;
+    background:var(--green-soft);border:1.5px solid var(--green-line);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .result-card .r-desc{
+    font-size:14px;line-height:2;color:var(--ink);
+  }
+  .r-points{
+    margin-top:18px;display:flex;flex-direction:column;gap:10px;
+  }
+  .r-point{
+    display:flex;gap:10px;align-items:flex-start;
+    background:var(--green-soft);
+    border-radius:12px;padding:12px 14px;
+    font-size:13px;line-height:1.7;
+  }
+  .r-point svg{flex-shrink:0;margin-top:3px;}
+  .line-area{
+    margin-top:22px;
+    background:var(--white);border-radius:20px;
+    box-shadow:0 10px 30px rgba(31,122,92,.10);
+    padding:22px;text-align:center;
+  }
+  .line-area .l-msg{
+    font-family:'Zen Kaku Gothic New',sans-serif;
+    font-size:15px;font-weight:700;line-height:1.8;margin-bottom:16px;
+  }
+  .line-btn{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    width:100%;border:none;
+    background:var(--line-brand);color:#fff;
+    font-family:'Zen Kaku Gothic New',sans-serif;
+    font-size:16px;font-weight:700;letter-spacing:.05em;
+    padding:17px;border-radius:100px;
+    box-shadow:0 8px 20px rgba(6,199,85,.30);
+    cursor:pointer;text-decoration:none;
+    transition:transform .15s ease;
+  }
+  .line-btn:active{transform:scale(.98);}
+  .retry{
+    margin:22px auto 34px;display:block;
+    background:none;border:none;
+    color:var(--ink-sub);font-size:13px;
+    cursor:pointer;letter-spacing:.04em;text-decoration:underline;
+    font-family:'Noto Sans JP',sans-serif;
+  }
+
+  .fade-in{animation:rise .45s ease both;}
+  @media (prefers-reduced-motion:no-preference){
+    .lead-card,.types,.features{animation:rise .6s ease both;}
+    .types{animation-delay:.12s;}
+    .features{animation-delay:.22s;}
+  }
+  @keyframes rise{
+    from{opacity:0;transform:translateY(14px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+</style>
+</head>
+<body>
+<div class="phone">
+
+  <!-- ============ トップ画面 ============ -->
+  <section class="screen active" id="screen-top">
+    <header class="header-band">
+      <div class="brand"><span class="dot"></span>PT CAREER CHECK</div>
+      <div class="time-chip">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        30秒でわかる
+      </div>
+      <h1>理学療法士特化</h1>
+      <div class="title-main"><span class="accent">正社員型？</span><br>業務委託型？</div>
+    </header>
+
+    <main class="card-area">
+      <div class="lead-card">
+        <p class="q">あなたにあった<br><span class="u">最適なキャリアプラン</span>を<br>パーソナル診断します！</p>
+        <p class="sub">かんたんな質問に答えるだけで、<br>あなたに向いている働き方のタイプがわかります。</p>
+
+        <div class="types">
+          <div class="type">
+            <div class="icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1F7A5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
+            </div>
+            <div class="t-label">TYPE 01</div>
+            <div class="t-name">自費治療<br>正社員型</div>
+          </div>
+          <div class="vs">or</div>
+          <div class="type">
+            <div class="icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1F7A5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4"/><path d="M5 21l4-11h6l4 11"/><path d="M12 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+            </div>
+            <div class="t-label">TYPE 02</div>
+            <div class="t-name">自費治療<br>業務委託型</div>
+          </div>
+        </div>
+
+        <div class="features">
+          <div class="feature"><b>全10問</b>選ぶだけ</div>
+          <div class="feature"><b>約30秒</b>で完了</div>
+          <div class="feature"><b>無料</b>登録不要</div>
+        </div>
+      </div>
+
+      <div class="cta-area">
+        <button class="cta" onclick="startQuiz()">診断をはじめる<span class="arrow">→</span></button>
+        <p class="cta-note">タップするとすぐに診断が始まります</p>
+      </div>
+    </main>
+  </section>
+
+  <!-- ============ 質問画面 ============ -->
+  <section class="screen" id="screen-quiz">
+    <div class="quiz-head">
+      <div class="brand"><span class="dot"></span>PT CAREER CHECK</div>
+      <div class="progress-label">
+        <div class="num">Q<span id="q-num">1</span><small> / 10</small></div>
+        <div class="pct" id="q-pct">10%</div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="q-fill"></div></div>
+    </div>
+    <div class="quiz-body">
+      <p class="q-text fade-in" id="q-text"></p>
+      <div class="opts" id="q-opts"></div>
+      <button class="back-link" id="q-back" onclick="goBack()">← ひとつ前の質問に戻る</button>
+    </div>
+  </section>
+
+  <!-- ============ 結果画面 ============ -->
+  <section class="screen" id="screen-result">
+    <header class="result-head">
+      <p class="lbl">RESULT</p>
+      <p class="r-catch" id="r-catch"></p>
+      <div class="r-type" id="r-type"></div>
+    </header>
+    <main class="card-area">
+      <div class="result-card fade-in">
+        <div class="r-icon" id="r-icon"></div>
+        <p class="r-desc" id="r-desc"></p>
+        <div class="r-points" id="r-points"></div>
+      </div>
+
+      <div class="line-area fade-in">
+        <p class="l-msg">転職に興味がある方は、<br>お気軽に公式LINEからご相談ください！</p>
+      </div>
+
+      <button class="retry" onclick="restart()">もう一度診断する</button>
+    </main>
+  </section>
+
+</div>
+
+<script>
+// ===== 質問データ =====
+// Q1-3: 属性確認用（判定に反映しない type:"attr"）
+// Q4-10: 判定用 direction:"emp"=正社員型寄り / "con"=業務委託型寄り
+const QUESTIONS = [
+  {
+    text:"あなたの年齢を教えてください",
+    type:"attr",
+    options:["27歳以下","27〜30歳","31〜35歳","36〜40歳","41〜45歳","46歳以上"]
+  },
+  {
+    text:"現在の年収を教えてください",
+    type:"attr",
+    options:["250万円未満","250〜300万円","300〜360万円","360〜400万円","400万円以上"]
+  },
+  {
+    text:"理学療法士としての実務年数を教えてください",
+    type:"attr",
+    options:["1〜3年","4〜7年","8〜15年","16年以上"]
+  },
+  {
+    text:"毎月の収入は安定している方が安心だ",
+    type:"scale", direction:"emp"
+  },
+  {
+    text:"将来的には個人収入500万円以上を目指したい",
+    type:"scale", direction:"con"
+  },
+  {
+    text:"老後の貯金よりも、今の収入を上げて稼げる未来を作りたい",
+    type:"scale", direction:"con"
+  },
+  {
+    text:"老後の資金を貯めながら、ライフワークバランスを充実させたい",
+    type:"scale", direction:"emp"
+  },
+  {
+    text:"収入よりも環境や心の安心を重視する",
+    type:"scale", direction:"emp"
+  },
+  {
+    text:"ライフワークバランスよりも年収を上げることに集中したい",
+    type:"scale", direction:"con"
+  },
+  {
+    text:"年齢に関係なく、頑張った分が成果として評価されたい",
+    type:"scale", direction:"con"
+  }
+];
+
+const SCALE_OPTIONS = ["そう思う","どちらかといえばそう思う","あまり思わない","思わない"];
+// そう思う=3点 → 思わない=0点（その設問の方向タイプへの加点）
+const SCALE_POINTS = [3,2,1,0];
+
+// ===== 結果データ =====
+const RESULTS = {
+  emp:{
+    catch:"あなたにおすすめのキャリアは…",
+    type:"自費治療<br>正社員型",
+    icon:'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1F7A5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>',
+    desc:"あなたは、安定した環境の中で着実にキャリアを築いていくことに向いているタイプです。毎月の収入や福利厚生といった土台を大切にしながら、自費治療の専門性を高めていく働き方が、あなたの強みを最も活かせます。",
+    points:[
+      "安定した給与のもとで、年収400万円を目指せるキャリアプランを描けます",
+      "福利厚生や社会保険など、生活の土台を守りながら専門性を磨けます",
+      "チームの中で経験を積み、じっくりとスキルアップしていけます"
+    ]
+  },
+  con:{
+    catch:"あなたにおすすめのキャリアは…",
+    type:"自費治療<br>業務委託型",
+    icon:'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1F7A5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4"/><path d="M5 21l4-11h6l4 11"/><path d="M12 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>',
+    desc:"あなたは、頑張った分が成果として評価される環境で力を発揮できるタイプです。自分の裁量で働きながら収入アップを目指す、成果報酬型の働き方が、あなたの向上心と行動力を最も活かせます。",
+    points:[
+      "成果報酬で、年収500万円以上を目指せる働き方に挑戦できます",
+      "働く時間や場所の裁量が大きく、自分のスタイルで活躍できます",
+      "年齢や社歴に関係なく、実力がそのまま評価につながります"
+    ]
+  }
+};
+
+// ===== 状態 =====
+let current = 0;
+let answers = new Array(QUESTIONS.length).fill(null);
+
+const $ = id => document.getElementById(id);
+
+function show(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  $(id).classList.add("active");
+  window.scrollTo(0,0);
+}
+
+function startQuiz(){
+  current = 0;
+  answers.fill(null);
+  renderQuestion();
+  show("screen-quiz");
+}
+
+function renderQuestion(){
+  const q = QUESTIONS[current];
+  $("q-num").textContent = current+1;
+  const pct = Math.round(((current)/QUESTIONS.length)*100);
+  $("q-pct").textContent = (current+1)*10 + "%";
+  $("q-fill").style.width = ((current+1)/QUESTIONS.length)*100 + "%";
+
+  const qText = $("q-text");
+  qText.textContent = q.text;
+  qText.classList.remove("fade-in");
+  void qText.offsetWidth;
+  qText.classList.add("fade-in");
+
+  const opts = q.type==="attr" ? q.options : SCALE_OPTIONS;
+  const wrap = $("q-opts");
+  wrap.innerHTML = "";
+  opts.forEach((label,i)=>{
+    const btn = document.createElement("button");
+    btn.className = "opt" + (answers[current]===i ? " selected" : "");
+    btn.innerHTML = '<span class="mark"></span>' + label;
+    btn.onclick = ()=>selectOption(i,btn);
+    wrap.appendChild(btn);
+  });
+
+  $("q-back").style.visibility = current===0 ? "hidden" : "visible";
+}
+
+function selectOption(i,btn){
+  answers[current] = i;
+  document.querySelectorAll(".opt").forEach(o=>o.classList.remove("selected"));
+  btn.classList.add("selected");
+  setTimeout(()=>{
+    if(current < QUESTIONS.length-1){
+      current++;
+      renderQuestion();
+    }else{
+      showResult();
+    }
+  }, 280);
+}
+
+function goBack(){
+  if(current>0){
+    current--;
+    renderQuestion();
+  }
+}
+
+function calcResult(){
+  let emp=0, con=0, empMax=0, conMax=0;
+  QUESTIONS.forEach((q,idx)=>{
+    if(q.type!=="scale") return;
+    const pt = SCALE_POINTS[answers[idx]];
+    if(q.direction==="emp"){ emp+=pt; empMax+=3; }
+    else{ con+=pt; conMax+=3; }
+  });
+  // 設問数が emp3問 / con4問 と非対称のため、満点比で正規化して比較
+  const empRate = emp/empMax;
+  const conRate = con/conMax;
+  return conRate > empRate ? "con" : "emp";
+}
+
+function showResult(){
+  const r = RESULTS[calcResult()];
+  $("r-catch").textContent = r.catch;
+  $("r-type").innerHTML = r.type;
+  $("r-icon").innerHTML = r.icon;
+  $("r-desc").textContent = r.desc;
+  $("r-points").innerHTML = r.points.map(p=>
+    '<div class="r-point"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1F7A5C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>'+p+'</span></div>'
+  ).join("");
+  show("screen-result");
+}
+
+function restart(){
+  show("screen-top");
+}
+</script>
+</body>
+</html>
