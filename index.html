@@ -1,4 +1,5 @@
 
+Index · HTML
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -39,7 +40,7 @@
   }
   .screen{display:none;flex-direction:column;flex:1;min-height:100vh;}
   .screen.active{display:flex;}
-
+ 
   /* ===== ヘッダー（トップ） ===== */
   .header-band{
     background:linear-gradient(160deg,var(--green-deep) 0%,var(--green-main) 100%);
@@ -145,7 +146,7 @@
     text-align:center;font-size:11.5px;color:var(--ink-sub);
     margin-top:10px;letter-spacing:.04em;
   }
-
+ 
   /* ===== 質問画面 ===== */
   .quiz-head{
     background:linear-gradient(160deg,var(--green-deep) 0%,var(--green-main) 100%);
@@ -214,7 +215,7 @@
     cursor:pointer;letter-spacing:.04em;
     font-family:'Noto Sans JP',sans-serif;
   }
-
+ 
   /* ===== 結果画面 ===== */
   .result-head{
     background:linear-gradient(160deg,var(--green-deep) 0%,var(--green-main) 100%);
@@ -287,7 +288,7 @@
     cursor:pointer;letter-spacing:.04em;text-decoration:underline;
     font-family:'Noto Sans JP',sans-serif;
   }
-
+ 
   .fade-in{animation:rise .45s ease both;}
   @media (prefers-reduced-motion:no-preference){
     .lead-card,.types,.features{animation:rise .6s ease both;}
@@ -302,7 +303,7 @@
 </head>
 <body>
 <div class="phone">
-
+ 
   <!-- ============ トップ画面 ============ -->
   <section class="screen active" id="screen-top">
     <header class="header-band">
@@ -314,12 +315,12 @@
       <h1>理学療法士特化</h1>
       <div class="title-main"><span class="accent">正社員型？</span><br>業務委託型？</div>
     </header>
-
+ 
     <main class="card-area">
       <div class="lead-card">
         <p class="q">あなたにあった<br><span class="u">最適なキャリアプラン</span>を<br>パーソナル診断します！</p>
         <p class="sub">かんたんな質問に答えるだけで、<br>あなたに向いている働き方のタイプがわかります。</p>
-
+ 
         <div class="types">
           <div class="type">
             <div class="icon">
@@ -337,21 +338,21 @@
             <div class="t-name">業務委託型</div>
           </div>
         </div>
-
+ 
         <div class="features">
           <div class="feature"><b>全10問</b>選ぶだけ</div>
           <div class="feature"><b>約30秒</b>で完了</div>
           <div class="feature"><b>無料</b>登録不要</div>
         </div>
       </div>
-
+ 
       <div class="cta-area">
         <button class="cta" onclick="startQuiz()">診断をはじめる<span class="arrow">→</span></button>
         <p class="cta-note">タップするとすぐに診断が始まります</p>
       </div>
     </main>
   </section>
-
+ 
   <!-- ============ 質問画面 ============ -->
   <section class="screen" id="screen-quiz">
     <div class="quiz-head">
@@ -368,7 +369,7 @@
       <button class="back-link" id="q-back" onclick="goBack()">← ひとつ前の質問に戻る</button>
     </div>
   </section>
-
+ 
   <!-- ============ 結果画面 ============ -->
   <section class="screen" id="screen-result">
     <header class="result-head">
@@ -382,17 +383,17 @@
         <p class="r-desc" id="r-desc"></p>
         <div class="r-points" id="r-points"></div>
       </div>
-
+ 
       <div class="line-area fade-in">
         <p class="l-msg">転職に興味がある方は、<br>お気軽に公式LINEからご相談ください！</p>
       </div>
-
+ 
       <button class="retry" onclick="restart()">もう一度診断する</button>
     </main>
   </section>
-
+ 
 </div>
-
+ 
 <script>
 // ===== 質問データ =====
 // Q1-3: 属性確認用（判定に反映しない type:"attr"）
@@ -442,11 +443,11 @@ const QUESTIONS = [
     type:"scale", direction:"con"
   }
 ];
-
+ 
 const SCALE_OPTIONS = ["そう思う","どちらかといえばそう思う","あまり思わない","思わない"];
 // そう思う=3点 → 思わない=0点（その設問の方向タイプへの加点）
 const SCALE_POINTS = [3,2,1,0];
-
+ 
 // ===== 結果データ =====
 const RESULTS = {
   emp:{
@@ -472,39 +473,39 @@ const RESULTS = {
     ]
   }
 };
-
+ 
 // ===== 状態 =====
 let current = 0;
 let answers = new Array(QUESTIONS.length).fill(null);
-
+ 
 const $ = id => document.getElementById(id);
-
+ 
 function show(id){
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   $(id).classList.add("active");
   window.scrollTo(0,0);
 }
-
+ 
 function startQuiz(){
   current = 0;
   answers.fill(null);
   renderQuestion();
   show("screen-quiz");
 }
-
+ 
 function renderQuestion(){
   const q = QUESTIONS[current];
   $("q-num").textContent = current+1;
   const pct = Math.round(((current)/QUESTIONS.length)*100);
   $("q-pct").textContent = (current+1)*10 + "%";
   $("q-fill").style.width = ((current+1)/QUESTIONS.length)*100 + "%";
-
+ 
   const qText = $("q-text");
   qText.textContent = q.text;
   qText.classList.remove("fade-in");
   void qText.offsetWidth;
   qText.classList.add("fade-in");
-
+ 
   const opts = q.type==="attr" ? q.options : SCALE_OPTIONS;
   const wrap = $("q-opts");
   wrap.innerHTML = "";
@@ -515,10 +516,10 @@ function renderQuestion(){
     btn.onclick = ()=>selectOption(i,btn);
     wrap.appendChild(btn);
   });
-
+ 
   $("q-back").style.visibility = current===0 ? "hidden" : "visible";
 }
-
+ 
 function selectOption(i,btn){
   answers[current] = i;
   document.querySelectorAll(".opt").forEach(o=>o.classList.remove("selected"));
@@ -532,14 +533,14 @@ function selectOption(i,btn){
     }
   }, 280);
 }
-
+ 
 function goBack(){
   if(current>0){
     current--;
     renderQuestion();
   }
 }
-
+ 
 function calcResult(){
   let emp=0, con=0, empMax=0, conMax=0;
   QUESTIONS.forEach((q,idx)=>{
@@ -553,7 +554,7 @@ function calcResult(){
   const conRate = con/conMax;
   return conRate > empRate ? "con" : "emp";
 }
-
+ 
 function showResult(){
   const r = RESULTS[calcResult()];
   $("r-catch").textContent = r.catch;
@@ -565,7 +566,7 @@ function showResult(){
   ).join("");
   show("screen-result");
 }
-
+ 
 function restart(){
   show("screen-top");
 }
